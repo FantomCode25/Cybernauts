@@ -36,23 +36,46 @@ export default function CaptureScreen() {
     setLoading(true);
     setResult(null);
 
-    // Simulate model prediction
-    console.log("Processing image:", uri);
+    try {
+      // Create form data
+      const formData = new FormData();
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      formData.append('file', blob, 'image.jpg');
 
-    setTimeout(() => {
-      const fakePrediction = "Leaf Blight";
-      setResult(fakePrediction);
-      setLoading(false);
+      // Send to backend
+      const prediction = await fetch('http://127.0.0.1:8000/predict', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
 
+      const data = await prediction.json();
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      setResult(data.prediction);
+      
       // Navigate to Report page with results
       router.push({
         pathname: "/report",
         params: {
-          result: fakePrediction,
-          imageUri: uri,
-        },
+          result: data.prediction,
+          confidence: data.confidence,
+          imageUri: uri
+        }
       });
-    }, 0);
+
+    } catch (error) {
+      console.error('Error detecting disease:', error);
+      setResult('Error detecting disease');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

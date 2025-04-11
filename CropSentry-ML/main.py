@@ -13,6 +13,28 @@ app = FastAPI()
 def read_root():
     return {"message": "Welcome to CropSentry!"}
 
+# Image processing endpoint
+@app.post("/process-image")
+async def process_image(file: UploadFile = File(...)):
+    # Read and preprocess the image
+    image_data = await file.read()
+    image = Image.open(io.BytesIO(image_data))
+    image = image.resize((160, 160))  # Resize to match model input requirements
+    image = image.convert("RGB")  # Ensure RGB format
+    image_array = np.array(image, dtype=np.float32)
+    image_array = image_array / 255.0  # Normalize
+    image_array = np.expand_dims(image_array, axis=0)
+
+    # Set input tensor
+    interpreter.set_tensor(input_details[0]['index'], image_array.astype(np.float32))
+
+    # Run inference
+    interpreter.invoke()
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+    predicted_class = class_names[np.argmax(output_data)]
+
+    return {"prediction": predicted_class, "confidence": float(np.max(output_data))}
+
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
@@ -31,8 +53,8 @@ output_details = interpreter.get_output_details()
 
 # Define class names based on your model training
 class_names = [
-    "Pepper__bell___Bacterial_spot",
-    "Pepper__bell___healthy",
+    "Pepper_bell__Bacterial_spot",
+    "Pepper_bell__healthy",
     "Potato___Early_blight",
     "Potato___Late_blight",
     "Potato___healthy",
@@ -43,7 +65,7 @@ class_names = [
     "Tomato_Septoria_leaf_spot",
     "Tomato_Spider_mites_Two_spotted_spider_mite",
     "Tomato__Target_Spot",
-    "Tomato__Tomato_YellowLeaf__Curl_Virus",
+    "Tomato_Tomato_YellowLeaf_Curl_Virus",
     "Tomato__Tomato_mosaic_virus",
     "Tomato_healthy"
 ]
