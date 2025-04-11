@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  SafeAreaView, 
-  ScrollView, 
-  TouchableOpacity, 
-  StatusBar,
-  FlatList
-} from 'react-native';
+import { Linking, View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, StatusBar, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 
 // Mock data for resources
@@ -19,10 +10,10 @@ const resourceCategories = [
     icon: '🌱',
     description: 'Learn about soil nutrients, pH levels, and maintenance',
     resources: [
-      { id: 's1', type: 'article', title: 'Understanding Soil pH and Plant Growth', source: 'Agricultural Extension' },
-      { id: 's2', type: 'video', title: 'How to Test Your Soil at Home', duration: '10:25', source: 'FarmTube' },
-      { id: 's3', type: 'article', title: 'Organic Matter: The Soul of Soil', source: 'Crop Science Journal' },
-      { id: 's4', type: 'video', title: 'Composting Techniques for Farmers', duration: '15:40', source: 'AgriLearn' },
+      { id: 's1', type: 'article', title: 'Understanding Soil pH and Plant Growth', source: 'cropnutrition.com', link: "https://www.cropnutrition.com/nutrient-management/soil-ph/" },
+      { id: 's2', type: 'video', title: 'Soil Test For Agriculture at Home', duration: '13:39', source: 'Discover Agriculture', link: "https://www.youtube.com/watch?v=hZVhswYdVeY" },
+      { id: 's3', type: 'article', title: 'Benefits of Soil Organic Matter', source: 'cropnutrition.com', link: "https://www.cropnutrition.com/resource-library/five-benefits-of-soil-organic-matter/" },
+      { id: 's4', type: 'video', title: 'Composting Techniques for Farmers', duration: '3:30', source: 'Organic Mandya', link: "https://www.youtube.com/watch?v=JT0if45XyB0" },
     ]
   },
   {
@@ -31,9 +22,9 @@ const resourceCategories = [
     icon: '💧',
     description: 'Efficient irrigation techniques and water conservation',
     resources: [
-      { id: 'w1', type: 'video', title: 'Drip Irrigation Installation Guide', duration: '18:12', source: 'WaterWise' },
-      { id: 'w2', type: 'article', title: 'Detecting Water Stress in Crops', source: 'Irrigation Today' },
-      { id: 'w3', type: 'article', title: 'Rainwater Harvesting for Small Farms', source: 'Sustainable Farming' },
+      { id: 'w1', type: 'video', title: 'Basic Drip Irrigation Setup', duration: '12:42', source: 'The Kenyan Farmer', link: "https://www.youtube.com/watch?v=DEOqCzg1ELI" },
+      { id: 'w2', type: 'article', title: 'Detecting Water Stress in Crops', source: 'Tamil Nadu Agricultural University', link: "https://agritech.tnau.ac.in/agriculture/agri_drought_effect_on_crops.html" },
+      { id: 'w3', type: 'article', title: 'Rainwater Harvesting for Small Farms', source: 'SSWM Farming', link: "https://sswm.info/sites/default/files/reference_attachments/IBRAIMO%20%26%20MUNGUAMBE%202007%20Rainwater%20Harvesting%20Technologies%20for%20Small%20Scale%20Rainfed%20Agriculture%20in%20Arid%20and%20Semi-arid%20Areas.pdf" },
     ]
   },
   {
@@ -42,10 +33,8 @@ const resourceCategories = [
     icon: '🐛',
     description: 'Identify and control common pests and diseases',
     resources: [
-      { id: 'p1', type: 'article', title: 'IPM: Integrated Pest Management Basics', source: 'Plant Protection' },
-      { id: 'p2', type: 'video', title: 'Natural Predators for Pest Control', duration: '12:55', source: 'EcoFarm' },
-      { id: 'p3', type: 'article', title: 'Recognizing Beneficial Insects in Your Garden', source: 'Organic Grower' },
-      { id: 'p4', type: 'video', title: 'Making Natural Pesticides', duration: '08:30', source: 'HomeFarm' },
+      { id: 'p1', type: 'article', title: 'IPM: Integrated Pest Management Basics', source: 'epa', link: "https://www.epa.gov/safepestcontrol/integrated-pest-management-ipm-principles" },
+      { id: 'p4', type: 'video', title: 'Making Natural Pesticides', duration: '15:29', source: 'Kijani Farmstead', link: "https://www.youtube.com/watch?v=ylPcHRSB8W0" },
     ]
   },
   {
@@ -54,10 +43,9 @@ const resourceCategories = [
     icon: '✅',
     description: 'Best practices for sustainable and productive farming',
     resources: [
-      { id: 'hp1', type: 'video', title: 'Crop Rotation: Planning Your Fields', duration: '14:20', source: 'Farm Academy' },
-      { id: 'hp2', type: 'article', title: '5 Habits of Successful Small-Scale Farmers', source: 'Modern Agriculture' },
-      { id: 'hp3', type: 'video', title: 'Mulching Methods Compared', duration: '09:15', source: 'GrowMore' },
-      { id: 'hp4', type: 'article', title: 'Intercropping: Maximize Your Space', source: 'Sustainable Farming' },
+      { id: 'hp1', type: 'video', title: 'Crop Rotation: Made Simple', duration: '22:45', source: 'UpBeet Farmer', link: "https://www.youtube.com/watch?v=Q5bQXYN6tgY" },
+      { id: 'hp3', type: 'video', title: 'Mulching Methods', duration: '26:59', source: 'No-Till Growers', link: "https://www.youtube.com/watch?v=SoF7Z6sWiEY" },
+      { id: 'hp4', type: 'article', title: 'Intercropping: Maximize Your Space', source: 'Kay Bee Bio', link: "https://kaybeebio.com/blog/intercropping-in-indian-farming-benefits-and-examples/" },
     ]
   },
   {
@@ -66,9 +54,9 @@ const resourceCategories = [
     icon: '🗓️',
     description: 'Season-specific advice for your region and crops',
     resources: [
-      { id: 'st1', type: 'article', title: 'Preparing Your Farm for Monsoon', source: 'Weather Watch' },
-      { id: 'st2', type: 'video', title: 'Winter Protection for Sensitive Crops', duration: '11:45', source: 'SeasonReady' },
-      { id: 'st3', type: 'article', title: 'Summer Crops: What to Plant Now', source: 'Growing Guide' },
+      { id: 'st1', type: 'article', title: 'Monsoon Crop Harvesting', source: 'JCBL Agri Solutions', link: "https://jcblagri.in/blogs/monsoon-crop-harvesting-and-post-harvest-conservation" },
+      { id: 'st2', type: 'article', title: 'Winter Protection for Sensitive Crops', source: 'Krishi Jagran', link: "https://krishijagran.com/crop-care/experts-guide-on-how-to-protect-crops-during-winter/#:~:text=Mulching%3A%20Apply%20a%20layer%20of,your%20crops%20from%20freezing%20temperatures." },
+      { id: 'st3', type: 'article', title: 'Summer Vegetables: What to Plant Now', source: 'Krishi Jagran', link: "https://krishijagran.com/agripedia/best-vegetables-to-grow-in-summer-season/" },
     ]
   }
 ];
@@ -76,11 +64,20 @@ const resourceCategories = [
 export default function LiteracyScreen() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  
+
   const selectedCategoryData = resourceCategories.find(cat => cat.id === selectedCategory);
-  
-  const ResourceCard = ({ type, title, source, duration = null, onPress }) => (
-    <TouchableOpacity style={styles.resourceCard} onPress={onPress}>
+
+  const ResourceCard = ({ type, title, source, duration = null, link }) => (
+    <TouchableOpacity
+      style={styles.resourceCard}
+      onPress={() => {
+        if (link) {
+          Linking.openURL(link);
+        } else {
+          alert('Link not available for this resource.');
+        }
+      }}
+    >
       <View style={styles.resourceIconContainer}>
         <Text style={styles.resourceIcon}>{type === 'article' ? '📄' : '🎬'}</Text>
       </View>
@@ -93,7 +90,6 @@ export default function LiteracyScreen() {
       </View>
     </TouchableOpacity>
   );
-  
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -105,58 +101,56 @@ export default function LiteracyScreen() {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Plant Health Literacy</Text>
         </View>
-        
+
         {!selectedCategory ? (
-          <>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.subtitle}>
               Learn best practices to keep your crops healthy and productive
             </Text>
-            
+
             <Text style={styles.sectionTitle}>Knowledge Categories</Text>
-            
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {resourceCategories.map((category) => (
-                <TouchableOpacity
-                  key={category.id}
-                  style={styles.categoryCard}
-                  onPress={() => setSelectedCategory(category.id)}
-                >
-                  <View style={styles.categoryHeader}>
-                    <View style={styles.categoryIconContainer}>
-                      <Text style={styles.categoryIcon}>{category.icon}</Text>
-                    </View>
-                    <View style={styles.categoryInfo}>
-                      <Text style={styles.categoryTitle}>{category.title}</Text>
-                      <Text style={styles.categoryCount}>
-                        {category.resources.length} {category.resources.length === 1 ? 'resource' : 'resources'}
-                      </Text>
-                    </View>
-                    <Text style={styles.chevron}>→</Text>
+
+            {resourceCategories.map((category) => (
+              <TouchableOpacity
+                key={category.id}
+                style={styles.categoryCard}
+                onPress={() => setSelectedCategory(category.id)}
+              >
+                <View style={styles.categoryHeader}>
+                  <View style={styles.categoryIconContainer}>
+                    <Text style={styles.categoryIcon}>{category.icon}</Text>
                   </View>
-                  <Text style={styles.categoryDescription}>{category.description}</Text>
-                </TouchableOpacity>
-              ))}
-              
-              <View style={styles.infoCard}>
-                <Text style={styles.infoTitle}>Need more help?</Text>
-                <Text style={styles.infoText}>
-                  Contact your local agricultural extension office for personalized advice 
-                  specific to your region and crops.
-                </Text>
-              </View>
-            </ScrollView>
-          </>
+                  <View style={styles.categoryInfo}>
+                    <Text style={styles.categoryTitle}>{category.title}</Text>
+                    <Text style={styles.categoryCount}>
+                      {category.resources.length} {category.resources.length === 1 ? 'resource' : 'resources'}
+                    </Text>
+                  </View>
+                  <Text style={styles.chevron}>→</Text>
+                </View>
+                <Text style={styles.categoryDescription}>{category.description}</Text>
+              </TouchableOpacity>
+            ))}
+
+            <View style={styles.infoCard}>
+              <Text style={styles.infoTitle}>Need more help?</Text>
+              <Text style={styles.infoText}>
+                Contact your local agricultural extension office for personalized advice 
+                specific to your region and crops.
+              </Text>
+            </View>
+          </ScrollView>
         ) : (
-          <>
+          <View style={{ flex: 1 }}>
             <View style={styles.categoryHeader}>
-              <TouchableOpacity 
-                style={styles.backCategoryButton} 
+              <TouchableOpacity
+                style={styles.backCategoryButton}
                 onPress={() => setSelectedCategory(null)}
               >
                 <Text style={styles.backCategoryText}>← All Categories</Text>
               </TouchableOpacity>
             </View>
-            
+
             <View style={styles.selectedCategoryHeader}>
               <View style={styles.selectedCategoryIconContainer}>
                 <Text style={styles.selectedCategoryIcon}>{selectedCategoryData?.icon}</Text>
@@ -166,32 +160,26 @@ export default function LiteracyScreen() {
                 {selectedCategoryData?.description}
               </Text>
             </View>
-            
+
             <View style={styles.resourcesContainer}>
               <Text style={styles.resourcesTitle}>Available Resources</Text>
-              
-              <FlatList
-  data={selectedCategoryData?.resources}
-  keyExtractor={(item) => item.id}
-  renderItem={({ item }) => (
-    <ResourceCard 
-      type={item.type} 
-      title={item.title} 
-      source={item.source}
-      duration={item.duration}
-      onPress={() => {
-        // TODO: Handle press event here!
-        console.log('Tapped:', item.title);
-        // You could navigate to a new screen or show a modal
-        // router.push(`/details/${item.id}`);
-      }}
-    />
-  )}
-  showsVerticalScrollIndicator={false}
-/>
 
+              <FlatList
+                data={selectedCategoryData?.resources}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <ResourceCard
+                    type={item.type}
+                    title={item.title}
+                    source={item.source}
+                    duration={item.duration}
+                    link={item.link}
+                  />
+                )}
+                showsVerticalScrollIndicator={false}
+              />
             </View>
-          </>
+          </View>
         )}
       </View>
     </SafeAreaView>
