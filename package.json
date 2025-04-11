@@ -1,9 +1,19 @@
 {
   "dependencies": {
-    "react-native": "^0.79.0"
+    "expo": "~52.0.43",
+    "expo-dev-client": "^5.0.20",
+    "react": "18.3.1",
+    "react-native": "^0.79.0",
+    "react-native-tflite": "^0.0.2"
   },
   "devDependencies": {
     "@types/react": "^19.1.0",
     "@types/react-native": "^0.72.8"
+  },
+  "name": "CybernautsJokes",
+  "version": "1.0.0",
+  "scripts": {
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   }
 }
