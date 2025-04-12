@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, StatusBar, ScrollView } from 'react-native';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  Pressable, 
+  StatusBar, 
+  ScrollView 
+} from 'react-native';
 import { Link } from 'expo-router';
 
 export default function HomeScreen() {
@@ -7,15 +14,18 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#f8faf7" />
       <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerText}>CropSentry</Text>
         </View>
         
+        {/* Welcome Section */}
         <Text style={styles.welcomeText}>Welcome Back!</Text>
         <Text style={styles.subHeaderText}>
           Your smart companion for plant disease detection
         </Text>
 
+        {/* Feature Card */}
         <View style={styles.cardContainer}>
           <View style={styles.featureCard}>
             <View style={styles.cardContent}>
@@ -31,6 +41,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
+        {/* Quick Actions Section */}
         <Text style={styles.sectionTitle}>Quick Actions</Text>
         <View style={styles.buttonSection}>
           <Link href="/capture" asChild>
@@ -62,6 +73,7 @@ export default function HomeScreen() {
           </Link>
         </View>
 
+        {/* Daily Tip Card */}
         <View style={styles.tipCard}>
           <Text style={styles.tipIcon}>💧</Text>
           <Text style={styles.tipTitle}>Daily Tip</Text>
@@ -70,6 +82,7 @@ export default function HomeScreen() {
           </Text>
         </View>
 
+        {/* Stats Section */}
         <View style={styles.statsContainer}>
           <Text style={styles.statsTitle}>Your Activity</Text>
           <View style={styles.statsRow}>
@@ -84,6 +97,7 @@ export default function HomeScreen() {
           </View>
         </View>
         
+        {/* Footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>CropSentry v1.0</Text>
         </View>

@@ -15,7 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 export default function CaptureScreen() {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ prediction: string, confidence: number } | null>(null);
+  const [result, setResult] = useState<string | null>(null);
   const router = useRouter();
 
   const pickImage = async () => {
@@ -37,35 +37,28 @@ export default function CaptureScreen() {
     setResult(null);
 
     try {
-      // Create form data with proper configuration
+      // Create form data
       const formData = new FormData();
-      formData.append('file', {
-        uri: uri,
-        type: 'image/jpeg',
-        name: 'image.jpg'
-      });
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      formData.append('file', blob, 'image.jpg');
 
-      // Send to backend with proper headers
-      const predictionResponse = await fetch('http://10.0.2.2:8000/predict', {
+      // Send to backend
+      const prediction = await fetch('http://127.0.0.1:8000/predict', {
         method: 'POST',
         body: formData,
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
         },
       });
 
-      const data = await predictionResponse.json();
+      const data = await prediction.json();
       
       if (data.error) {
         throw new Error(data.error);
       }
 
-      // Handle prediction result
-      setResult({
-        prediction: data.prediction,
-        confidence: data.confidence,
-      });
+      setResult(data.prediction);
       
       // Navigate to Report page with results
       router.push({
@@ -79,7 +72,7 @@ export default function CaptureScreen() {
 
     } catch (error) {
       console.error('Error detecting disease:', error);
-      setResult({ prediction: 'Error detecting disease', confidence: 0 });
+      setResult('Error detecting disease');
     } finally {
       setLoading(false);
     }
@@ -123,8 +116,7 @@ export default function CaptureScreen() {
         {result && (
           <View style={styles.resultContainer}>
             <Text style={styles.resultLabel}>Detected:</Text>
-            <Text style={styles.resultText}>{result.prediction}</Text>
-            <Text style={styles.confidenceText}>Confidence: {result.confidence.toFixed(2)}</Text>
+            <Text style={styles.resultText}>{result}</Text>
           </View>
         )}
 
@@ -243,11 +235,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#333",
-  },
-  confidenceText: {
-    fontSize: 14,
-    color: "#888",
-    marginTop: 4,
   },
   tipsContainer: {
     backgroundColor: "#f5f5f5",
