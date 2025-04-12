@@ -1,50 +1,44 @@
-# Welcome to your Expo app 👋
+CropSentry is an intelligent, mobile-first application designed to help farmers and gardeners detect plant diseases and pests using machine learning. The app leverages high-resolution images of plants to identify potential issues, providing valuable insights to improve crop health and yields.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Features
+1. Disease and Pest Detection
+The app uses Machine Learning model (MobileNetV2) to classify and identify diseases and pests in plants by analyzing high-resolution images.
 
-## Get started
+Real-time Image Processing: Users can upload pictures of their crops, and the app will process and identify the disease/pest with high accuracy.
 
-1. Install dependencies
+Provides detailed information on the detected disease/pest, including possible causes and solutions.
 
-   ```bash
-   npm install
-   ```
+2. Mobile-First Design
+The app is optimized for mobile devices, ensuring a smooth user experience even in field conditions where access to computers may be limited.
 
-2. Start the app
+Available on Expo Go, ensuring quick development and testing on mobile devices.
 
-   ```bash
-    npx expo start
-   ```
+3. User Profiles
+Users can create personal profiles, storing their uploaded images and disease/pest detection history.
 
-In the output, you'll find options to open the app in a
+Track progress over time by revisiting past diagnoses and checking previous reports.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+4. Educational Resources
+The app provides a Literacy section with helpful information on various plant diseases and pests, giving users access to resources for better plant care.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+"Read More" functionality to access in-depth guides and advice on plant health.
 
-## Get a fresh project
+5. Seamless User Interaction
+Capture Screen: Users can take a photo of a plant directly within the app for immediate disease detection.
 
-When you're ready, run:
+Prediction Results: After processing the image, the app provides prediction results, displaying the most likely disease or pest, along with its confidence score.
 
-```bash
-npm run reset-project
-```
+6. User-Friendly Interface
+The app features an intuitive design with bottom navigation for easy access to key features like Home, Capture, Profile, and Literacy.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+7. Machine Learning Model
+Built using TensorFlow Lite to deploy the model on mobile devices for efficient and fast inference.
 
-## Learn more
+The model is trained on a variety of crop diseases and pests, allowing it to recognize a wide range of plant issues.
 
-To learn more about developing your project with Expo, look at the following resources:
+Technologies Used
+Frontend: React Native with Expo
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Backend: FastAPI (for model inference and API endpoints)
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Machine Learning: TensorFlow Lite (for model inference on mobile)
